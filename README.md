@@ -1,4 +1,4 @@
-so far 8051 basic architecture simulation complete can only run 3 commands CLR A, MOV A.#DATA AND MOV DIRECT,#DATA.
+so far 8051 basic architecture simulation complete can only run 3 commands <br /> CLR A <br />  MOV A.#DATA <br />  MOV DIRECT,#DATA.<br /> 
 uses array to take code input. Current default program moves the value 56 inside the ACC.
 
 
