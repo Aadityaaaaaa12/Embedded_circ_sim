@@ -21,10 +21,10 @@ class CPU {
 
   private Memory memory;
   private InstructionSet instructionSet;
-
-  public CPU(Memory memory) {
+  private Pins pins;	
+  public CPU(Memory memory, Pins pins) {
       this.memory = memory;
-      this.instructionSet = new InstructionSet(this, memory);
+      this.instructionSet = new InstructionSet(this, memory,pins);
       reset();
   }
 
