@@ -12,9 +12,13 @@ public class Memory {
   }
 
   // Read from rom
-  public int readByte(int address) {
-    return codeMemory[address] & 0xFF; // unsigned byte
-  }
+ public int readByte(int address) {
+    if (address >= 0 && address < codeMemory.length) {
+        return codeMemory[address] & 0xFF; 
+    } else {
+        throw new IllegalArgumentException("Invalid memory access at address: " + address);
+    }
+}
 
   // Write to rom
   public void writeByte(int address, byte value) {
