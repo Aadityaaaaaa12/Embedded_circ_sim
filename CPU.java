@@ -27,7 +27,9 @@ class CPU {
       this.instructionSet = new InstructionSet(this, memory,pins);
       reset();
   }
-
+ // cpu main component def end
+ 
+   // imp functions
   public void reset() {
     this.pc = 0x0000;
     this.dptr = 0x0000;
@@ -42,9 +44,8 @@ class CPU {
     this.overflowFlag = false;
     this.parityFlag = false;
   }
-  // cpu main component def end
 
-  // imp functions
+
   public int fetch() {
     int opcode = memory.readByte(pc);
     pc++;
@@ -157,10 +158,10 @@ class CPU {
   public void setparityFlag(Boolean parityFlag) {
     this.parityFlag = parityFlag;
   }
-  // getters setterssss for various thingys end
+  // getters setters for various thingys end
 
 
-  // displayyyyyyyyyyyyy
+  // display
   public void displayRegisters() {
     System.out.println("Accumulator: 0x" + String.format("%02X", acc));
     System.out.println("DPTR: 0x" + String.format("%04X", dptr));
@@ -189,6 +190,6 @@ class CPU {
     System.out.println("Overflow Flag (OV): " + overflowFlag);
     System.out.println("Parity Flag (P): " + parityFlag);
   }
-  //displayyyyyy end
+  //display end
 
 }
