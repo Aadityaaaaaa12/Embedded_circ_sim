@@ -35,7 +35,6 @@ public class InstructionSet {
             case 0xD2: // SETB bit (Set a bit in memory, register, flag, or pin)
                 int bitAddress = cpu.fetch(); 
 
-                // Check if it's a memory address (RAM or ROM)
                 if (bitAddress < 0x80) {  // RAM memory address
                     int byteAddress = bitAddress >> 3;
                     int bitPosition = bitAddress & 0x07; 
@@ -74,13 +73,23 @@ public class InstructionSet {
                         default:
                             throw new UnsupportedOperationException("Unknown flag bit at address: " + bitAddress);
                     }
-                } else if (bitAddress >= 0x90 && bitAddress <= 0x9F) {	//port 1
-                   
+                } else if (bitAddress >= 0x80 && bitAddress <= 0x87) {	//port 0
+  
                     setPinBit(bitAddress);  
-                } else if (bitAddress >= 0xA0 && bitAddress <= 0xAF) {	//port 2
+					
+                } else if (bitAddress >= 0x90 && bitAddress <= 0x97) {	//port 1
               
                     setPinBit(bitAddress);  
-                } else {
+					
+                }else if(bitAddress >= 0xA0 && bitAddress <= 0xA7){ //port  2
+				
+					setPinBit(bitAddress);  
+					
+				}else if(bitAddress >= 0xB0 && bitAddress <= 0xB7){ //PORT 3
+					
+					 setPinBit(bitAddress);  
+					
+				}else {
                     throw new UnsupportedOperationException("Invalid bit address for SETB: " + Integer.toHexString(bitAddress));
                 }
                 break;
@@ -110,7 +119,7 @@ public class InstructionSet {
     // Helper function to set a specific bit in memory (RAM or ROM)
     private void setMemoryBit(int address, int bitPosition, boolean isROM) {
         if (isROM) {
-            // For ROM memory, we assume this is read-only and raise an exception or handle it accordingly
+            // For ROM memory,this is read-only 
             throw new UnsupportedOperationException("Cannot set bit in ROM memory.");
         } else {
             // For RAM memory
@@ -150,22 +159,148 @@ public class InstructionSet {
         }
     }
 
-    
-    private void setPinBit(int pinAddress) {
-    // Access the appropriate pin based on the bit address
+   //helper function to set pins in a port 
+   private void setPinBit(int pinAddress) { 
     switch (pinAddress) {
-        case 0x90:  // P1.0
-            pins.p1_0.setHigh();  // Set P1.0 high
-            System.out.println("P1.0 set HIGH");
+        // Port 0 (P0.0 - P0.7)
+        case 0x80:  // P0.0
+            pins.p0_0.setHigh();
+            System.out.println("P0.0 set HIGH");
+            break;
+        case 0x81:  // P0.1
+            pins.p0_1.setHigh();
+            System.out.println("P0.1 set HIGH");
+            break;
+        case 0x82:  // P0.2
+            pins.p0_2.setHigh();
+            System.out.println("P0.2 set HIGH");
+            break;
+        case 0x83:  // P0.3
+            pins.p0_3.setHigh();
+            System.out.println("P0.3 set HIGH");
+            break;
+        case 0x84:  // P0.4
+            pins.p0_4.setHigh();
+            System.out.println("P0.4 set HIGH");
+            break;
+        case 0x85:  // P0.5
+            pins.p0_5.setHigh();
+            System.out.println("P0.5 set HIGH");
+            break;
+        case 0x86:  // P0.6
+            pins.p0_6.setHigh();
+            System.out.println("P0.6 set HIGH");
+            break;
+        case 0x87:  // P0.7
+            pins.p0_7.setHigh();
+            System.out.println("P0.7 set HIGH");
             break;
 
+        // Port 1 (P1.0 - P1.7)
+        case 0x90:  // P1.0
+            pins.p1_0.setHigh();
+            System.out.println("P1.0 set HIGH");
+            break;
         case 0x91:  // P1.1
-            pins.p1_1.setHigh();  // Set P1.1 high
+            pins.p1_1.setHigh();
             System.out.println("P1.1 set HIGH");
+            break;
+        case 0x92:  // P1.2
+            pins.p1_2.setHigh();
+            System.out.println("P1.2 set HIGH");
+            break;
+        case 0x93:  // P1.3
+            pins.p1_3.setHigh();
+            System.out.println("P1.3 set HIGH");
+            break;
+        case 0x94:  // P1.4
+            pins.p1_4.setHigh();
+            System.out.println("P1.4 set HIGH");
+            break;
+        case 0x95:  // P1.5
+            pins.p1_5.setHigh();
+            System.out.println("P1.5 set HIGH");
+            break;
+        case 0x96:  // P1.6
+            pins.p1_6.setHigh();
+            System.out.println("P1.6 set HIGH");
+            break;
+        case 0x97:  // P1.7
+            pins.p1_7.setHigh();
+            System.out.println("P1.7 set HIGH");
+            break;
+
+        // Port 2 (P2.0 - P2.7)
+        case 0xA0:  // P2.0
+            pins.p2_0.setHigh();
+            System.out.println("P2.0 set HIGH");
+            break;
+        case 0xA1:  // P2.1
+            pins.p2_1.setHigh();
+            System.out.println("P2.1 set HIGH");
+            break;
+        case 0xA2:  // P2.2
+            pins.p2_2.setHigh();
+            System.out.println("P2.2 set HIGH");
+            break;
+        case 0xA3:  // P2.3
+            pins.p2_3.setHigh();
+            System.out.println("P2.3 set HIGH");
+            break;
+        case 0xA4:  // P2.4
+            pins.p2_4.setHigh();
+            System.out.println("P2.4 set HIGH");
+            break;
+        case 0xA5:  // P2.5
+            pins.p2_5.setHigh();
+            System.out.println("P2.5 set HIGH");
+            break;
+        case 0xA6:  // P2.6
+            pins.p2_6.setHigh();
+            System.out.println("P2.6 set HIGH");
+            break;
+        case 0xA7:  // P2.7
+            pins.p2_7.setHigh();
+            System.out.println("P2.7 set HIGH");
+            break;
+
+        // Port 3 (P3.0 - P3.7)
+        case 0xB0:  // P3.0
+            pins.p3_0.setHigh();
+            System.out.println("P3.0 set HIGH");
+            break;
+        case 0xB1:  // P3.1
+            pins.p3_1.setHigh();
+            System.out.println("P3.1 set HIGH");
+            break;
+        case 0xB2:  // P3.2
+            pins.p3_2.setHigh();
+            System.out.println("P3.2 set HIGH");
+            break;
+        case 0xB3:  // P3.3
+            pins.p3_3.setHigh();
+            System.out.println("P3.3 set HIGH");
+            break;
+        case 0xB4:  // P3.4
+            pins.p3_4.setHigh();
+            System.out.println("P3.4 set HIGH");
+            break;
+        case 0xB5:  // P3.5
+            pins.p3_5.setHigh();
+            System.out.println("P3.5 set HIGH");
+            break;
+        case 0xB6:  // P3.6
+            pins.p3_6.setHigh();
+            System.out.println("P3.6 set HIGH");
+            break;
+        case 0xB7:  // P3.7
+            pins.p3_7.setHigh();
+            System.out.println("P3.7 set HIGH");
             break;
 
         default:
             throw new UnsupportedOperationException("Invalid pin address for SETB: " + Integer.toHexString(pinAddress));
 		}
 	}
+
 }
