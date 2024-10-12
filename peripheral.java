@@ -3,7 +3,7 @@ interface Peripheral {
 }
 
 class Pin {
-    private boolean state; // true = HIGH, false = LOW
+    private boolean state; 
     private String pinName; // For identification (e.g., P1_0 for pin 0 of Port 1)
 
     public Pin(String pinName) {
@@ -69,7 +69,7 @@ class Pins {
 	public Pin p1_4 = new Pin("P1_4");
 	public Pin p1_5 = new Pin("P1_5");
 	public Pin p1_6 = new Pin("P1_6");	
-	public Pin p1_7 = new Pin("P2_7");
+	public Pin p1_7 = new Pin("P1_7");
 	
 	//port2
 	public Pin p2_0 = new Pin("P2_0");//AD8
@@ -107,6 +107,15 @@ class Pins {
 class LED implements Peripheral {
     private Pin anode;
     private Pin cathode;
+	private String colour;
+	
+	public LED(){ //constructor defaults to red
+	this.colour = "red";
+	}
+	
+	public LED(String colour){ //constructor takes user defined led colour;
+	this.colour = colour;	
+	}
 
     @Override
     public void connect(Pin... pins) {
@@ -120,7 +129,7 @@ class LED implements Peripheral {
 
     public void checkState() {
         if (anode.isHigh() && !cathode.isHigh()) {
-            System.out.println("LED is ON");
+            System.out.println(colour + " LED is ON");
         } else {
             System.out.println("LED is OFF");
         }
@@ -131,7 +140,7 @@ class LED implements Peripheral {
     }
 }
 
-class seven_seg_display(Pin... pins){
+class seven_seg_display implements Peripheral{
 private Pin en;
 private Pin A;
 private Pin	B;
@@ -140,7 +149,10 @@ private Pin D;
 private Pin E;
 private Pin F;
 private Pin G;
-
+	
+	
+	@Override
+	public void connect(Pin... pins){
 	if(pins.length == 8){
 	this.en = pins[0];
 	this.A  = pins[1];
@@ -151,10 +163,11 @@ private Pin G;
 	this.F  = pins[6];
 	this.G  = pins[7];
 	}else {
-            throw new IllegalArgumentException("7 SEGMENT DISPLAY REQUIRES 8 PINS (EN AND 7 DAT PINS).");
-        }
+      throw new IllegalArgumentException("7 SEGMENT DISPLAY REQUIRES 8 PINS (EN AND 7 DAT PINS).");
+       }
+	}
 		
-	public void run_ssd(){
+	public void run_ssd(){ //function to run the seven segment display
 		if(en.isHigh()){
 			if(A.isHigh() && B.isHigh() && C.isHigh() && D.isHigh() && E.isHigh() && F.isHigh() && !G.isHigh()){ //code for 0
 				System.out.println(" __");
@@ -208,26 +221,40 @@ private Pin G;
 class Resistor implements Peripheral {
     private Pin rpin1;
     private Pin rpin2;
+    private double resistance;  // Store resistance value 
+
+    // Default constructor with default resistance of 10k ohms
+    public Resistor() {
+        this.resistance = 10_000;  // Default resistance 10k ohms
+    }
+
+    // Overloaded constructor to specify resistance
+    public Resistor(double resistance) {
+        this.resistance = resistance;
+    }
 
     @Override
     public void connect(Pin... pins) {
         if (pins.length == 2) {
-            this.rpin1 = pins[0];  // Cathode of LED (first pin)
-            this.rpin2 = pins[1];  // Ground (second pin)
+            this.rpin1 = pins[0];  
+            this.rpin2 = pins[1];  
         } else {
             throw new IllegalArgumentException("Resistor requires 2 pins.");
         }
     }
 
+
+    // Method to check the voltage drop across the resistor
     public void checkVoltageDrop() {
         System.out.println("Checking voltage between " + rpin1.getPinName() + " and " + rpin2.getPinName());
         if (rpin1.isHigh() && !rpin2.isHigh()) {
-            System.out.println("Current flows through the resistor.");
+            System.out.println("Current flows through the resistor with resistance: " + resistance + " ohms.");
         } else {
             System.out.println("No current flows through the resistor.");
         }
     }
 
+    // Getters for rpin1, rpin2, and resistance
     public Pin getRPin1() {
         return rpin1;
     }
@@ -235,12 +262,84 @@ class Resistor implements Peripheral {
     public Pin getRPin2() {
         return rpin2;
     }
+
+    public double getResistance() {
+        return resistance;
+    }
+
+    public void setResistance(double resistance) {
+        this.resistance = resistance;
+    }
 }
 
 
 
 
+
+
+class npn extends VoltageChecker implements Peripheral{
+	private Pin base;
+	private Pin emitter;
+	private Pin collector;
+	
+	@Override
+    public void connect(Pin... pins) {
+        if (pins.length == 3) {
+            this.base = pins[0]; 
+            this.collector = pins[1];  
+			this.emitter = pins[2]; 
+        } else {
+            throw new IllegalArgumentException("Transistor requires 3 pins.");
+        }
+    }
+	
+	@Override
+	public void checkVoltage(){
+		if(base.isHigh() && !emitter.isHigh() && collector.isHigh()){ //will only work if emitter is low and rest are high
+			System.out.println("Current flows through the npn transistor.");
+		}else {
+            System.out.println("No current flows through the npn transistor.");
+        }
+	}
+	
+	
+}
+
+
+class pnp extends VoltageChecker implements Peripheral{
+	private Pin base;
+	private Pin emitter;
+	private Pin collector;
+	
+	@Override
+    public void connect(Pin... pins) {
+        if (pins.length == 3) {
+            this.base = pins[0]; 
+            this.collector = pins[1];  
+			this.emitter = pins[2]; 
+        } else {
+            throw new IllegalArgumentException("Transistor requires 3 pins.");
+        }
+    }
+	
+	@Override
+	public void checkVoltage(){ //will only work if emitter is high and rest are low
+		if(!base.isHigh() && emitter.isHigh() && !collector.isHigh()){
+			System.out.println("Current flows through the pnp transistor.");
+		}else {
+            System.out.println("No current flows through the pnp transistor.");
+        }
+	}
+	
+	
+}
+
+
+
+
+
 class Ground extends Pin {
+	
     public Ground() {
         super("Ground");
         this.setLow(); // Ground is always LOW
