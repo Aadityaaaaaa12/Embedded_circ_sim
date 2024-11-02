@@ -6,16 +6,18 @@ public class Memory {
   private byte[] dataMemory; // default RAM (128)
   private byte[] codeMemory; // default ROM(4096)
 
-  public Memory(int codeMemorySize){ //RAM defualts to 128. ROM user defined  
+  public Memory(byte codeMemorySize){ //RAM defualts to 128. ROM user defined  
 	this.dataMemory = new byte[128];
     this.codeMemory = new byte[codeMemorySize];  
   }	
+ 
   
   public Memory(int dataMemorySize){ //ROM defaults to 4096. RAM user defined
 	this.dataMemory = new byte[dataMemorySize];
     this.codeMemory = new byte[4096];  
   }
-
+	
+  	
   public Memory(int codeMemorySize, int dataMemorySize) { //RAM & ROM user defined
     this.dataMemory = new byte[dataMemorySize];
     this.codeMemory = new byte[codeMemorySize];
