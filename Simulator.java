@@ -1,6 +1,8 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Scanner;
+
 
 public class Simulator {
     public static void main(String[] args) {
@@ -8,6 +10,7 @@ public class Simulator {
 		Pins pins = new Pins();
 		CPU cpu = new CPU(memory,pins);
 		InstructionSet instructionSet = new InstructionSet(cpu, memory, pins);
+		Scanner sc = new Scanner(System.in);
 		Ground ground = new Ground();
 		seven_seg_display sseg = new seven_seg_display();
 		LED led_1 = new LED();
@@ -46,6 +49,18 @@ public class Simulator {
 		led_2.checkState();   
         resistor_2.checkVoltageDrop();
 		sseg.run_ssd();
+		
+		
+		
+		System.out.print("Enter the ram location: ");
+		int ramADDR = sc.nextInt();
+		//System.out.print("Enter the rom location: ");
+		//int romADDR = sc.nextInt();
+		memory.ramDisplay(ramADDR);
+		//memory.romDisplay(romADDR);
+		
+		
+		sc.close();
 		
     }
 	//loader function

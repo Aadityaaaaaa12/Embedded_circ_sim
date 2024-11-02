@@ -168,6 +168,7 @@ class CPU {
     System.out.println("B Register: 0x" + String.format("%02X", b));
     System.out.println("Program Counter: 0x" + String.format("%04X", pc));
   }
+  
 
   
   public void setAndDisplayPSW() {

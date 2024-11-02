@@ -18,6 +18,11 @@ public class InstructionSet {
             case 0xE4: // CLR A (Clear ACC)
                 cpu.setAccumulator((byte) 0);
                 break;
+			case 0xF4: // CPL A
+				byte accumulatorValue = cpu.getAccumulator();
+				byte complementedValue = (byte) ~accumulatorValue;  // Bitwise NOT operation
+				cpu.setAccumulator(complementedValue);
+				break;
 
             case 0x74: // MOV A, #data (Move immediate value to ACC)
                 int immediateValue = cpu.fetch(); 
@@ -25,12 +30,109 @@ public class InstructionSet {
                 cpu.setparityFlag(calculateParity(immediateValue));
                 break;
 
-            case 0x75: // MOV direct, #data (Move immediate value to direct address in memory)
+			case 0xE8: // MOV A, R0
+				cpu.setAccumulator((byte) memory.readDataByte(0x00));
+				break;
+
+			case 0xE9: // MOV A, R1
+				cpu.setAccumulator((byte) memory.readDataByte(0x01));
+				break;
+
+			case 0xEA: // MOV A, R2
+				cpu.setAccumulator((byte) memory.readDataByte(0x02));
+				break;
+
+			case 0xEB: // MOV A, R3
+				cpu.setAccumulator((byte) memory.readDataByte(0x03));
+				break;
+
+			case 0xEC: // MOV A, R4
+				cpu.setAccumulator((byte) memory.readDataByte(0x04));
+				break;
+
+			case 0xED: // MOV A, R5
+				cpu.setAccumulator((byte) memory.readDataByte(0x05));
+			break;
+
+			case 0xEE: // MOV A, R6
+				cpu.setAccumulator((byte) memory.readDataByte(0x06));
+				break;
+
+			case 0xEF: // MOV A, R7
+			cpu.setAccumulator((byte) memory.readDataByte(0x07));
+				break;
+			case 0xF8: // MOV R0, A
+				memory.writeDataByte(0x00, cpu.getAccumulator());
+				break;
+
+			case 0xF9: // MOV R1, A
+				memory.writeDataByte(0x01, cpu.getAccumulator());
+				break;
+
+			case 0xFA: // MOV R2, A
+				memory.writeDataByte(0x02, cpu.getAccumulator());
+				break;
+
+			case 0xFB: // MOV R3, A
+				memory.writeDataByte(0x03, cpu.getAccumulator());
+				break;
+
+			case 0xFC: // MOV R4, A
+				memory.writeDataByte(0x04, cpu.getAccumulator());
+				break;
+
+			case 0xFD: // MOV R5, A
+				memory.writeDataByte(0x05, cpu.getAccumulator());
+				break;
+
+			case 0xFE: // MOV R6, A
+				memory.writeDataByte(0x06, cpu.getAccumulator());
+				break;
+
+			case 0xFF: // MOV R7, A
+				memory.writeDataByte(0x07, cpu.getAccumulator());
+				break;
+			
+            case 0x75: // MOV direct, #immediate (Move immediate value to direct address in memory)
                 int address = cpu.fetch();
                 int value = cpu.fetch();
                 memory.writeByte(address, (byte) value);
                 cpu.setparityFlag(calculateParity(value));
                 break;
+				
+			case 0x78: // MOV R0, #immediate
+				memory.writeDataByte(0x00, (byte) memory.readByte(cpu.fetch()));
+				break;
+
+			case 0x79: // MOV R1, #immediate
+				 int value_r = cpu.fetch();
+				memory.writeDataByte(0x01, (byte) value_r);
+				break;
+
+			case 0x7A: // MOV R2, #immediate
+				memory.writeDataByte(0x02, (byte) memory.readByte(cpu.fetch()));
+				break;
+
+			case 0x7B: // MOV R3, #immediate
+				memory.writeDataByte(0x03, (byte) memory.readByte(cpu.fetch()));
+				break;
+
+			case 0x7C: // MOV R4, #immediate
+				memory.writeDataByte(0x04, (byte) memory.readByte(cpu.fetch()));
+				break;
+
+			case 0x7D: // MOV R5, #immediate
+				memory.writeDataByte(0x05, (byte) memory.readByte(cpu.fetch()));
+				break;
+			
+			case 0x7E: // MOV R6, #immediate
+				memory.writeDataByte(0x06, (byte) memory.readByte(cpu.fetch()));
+				break;
+
+			case 0x7F: // MOV R7, #immediate
+				memory.writeDataByte(0x07, (byte) memory.readByte(cpu.fetch()));
+				break;
+
 
             case 0xD2: // SETB bit (Set a bit in memory, register, flag, or pin)
                 int bitAddress = cpu.fetch(); 

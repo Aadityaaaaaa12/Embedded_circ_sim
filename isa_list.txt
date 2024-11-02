@@ -1,0 +1,36 @@
+CPL A
+CLR A
+
+MOV A, immediate
+MOV A,R0
+MOV A,R1
+MOV A,R2
+MOV A,R3
+MOV A,R4
+MOV A,R5
+MOV A,R6
+MOV A,R7
+
+
+
+
+
+MOV RO, A
+MOV R1, A
+MOV R2, A
+MOV R3, A 
+MOV R4, A
+MOV R5, A
+MOV R6, A
+MOV R7, A
+MOV RO, immediate 
+MOV R1, immediate 
+MOV R2, immediate 
+MOV R3, immediate 
+MOV R4, immediate 
+MOV R5, immediate 
+MOV R6, immediate 
+MOV R7, immediate 
+
+
+
