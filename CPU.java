@@ -43,6 +43,7 @@ class CPU {
     this.regset0 = false;
     this.overflowFlag = false;
     this.parityFlag = false;
+	instructionSet.pinReset();
   }
 
 

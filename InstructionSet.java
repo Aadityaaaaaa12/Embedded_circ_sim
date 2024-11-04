@@ -261,6 +261,52 @@ public class InstructionSet {
         }
     }
 
+
+   public void pinReset() {
+    // Port 0 (P0.0 - P0.7)
+    pins.p0_0.setLow();
+    pins.p0_1.setLow();
+    pins.p0_2.setLow();
+    pins.p0_3.setLow();
+    pins.p0_4.setLow();
+    pins.p0_5.setLow();
+    pins.p0_6.setLow();
+    pins.p0_7.setLow();
+
+    // Port 1 (P1.0 - P1.7)
+    pins.p1_0.setLow();
+    pins.p1_1.setLow();
+    pins.p1_2.setLow();
+    pins.p1_3.setLow();
+    pins.p1_4.setLow();
+    pins.p1_5.setLow();
+    pins.p1_6.setLow();
+    pins.p1_7.setLow();
+
+    // Port 2 (P2.0 - P2.7)
+    pins.p2_0.setLow();
+    pins.p2_1.setLow();
+    pins.p2_2.setLow();
+    pins.p2_3.setLow();
+    pins.p2_4.setLow();
+    pins.p2_5.setLow();
+    pins.p2_6.setLow();
+    pins.p2_7.setLow();
+
+    // Port 3 (P3.0 - P3.7)
+    pins.p3_0.setLow();
+    pins.p3_1.setLow();
+    pins.p3_2.setLow();
+    pins.p3_3.setLow();
+    pins.p3_4.setLow();
+    pins.p3_5.setLow();
+    pins.p3_6.setLow();
+    pins.p3_7.setLow();
+
+    System.out.println("All pins have been reset to LOW.");
+}
+
+   
    //helper function to set pins in a port 
    private void setPinBit(int pinAddress) { 
     switch (pinAddress) {
