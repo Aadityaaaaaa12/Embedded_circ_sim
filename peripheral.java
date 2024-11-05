@@ -33,6 +33,60 @@ class Pin {
     }
 }
 
+class Pins {
+	//port0
+    public Pin p0_0 = new Pin("P0_0");//AD0	
+    public Pin p0_1 = new Pin("P0_1");//AD1
+	public Pin p0_2 = new Pin("P0_2");//AD2
+	public Pin p0_3 = new Pin("P0_3");//AD3
+	public Pin p0_4 = new Pin("P0_4");//AD4
+	public Pin p0_5 = new Pin("P0_5");//AD5
+	public Pin p0_6 = new Pin("P0_6");//AD6
+	public Pin p0_7 = new Pin("P0_7");//AD7
+	
+	//port1
+    public Pin p1_0 = new Pin("P1_0");
+    public Pin p1_1 = new Pin("P1_1");
+	public Pin p1_2 = new Pin("P1_2");
+	public Pin p1_3 = new Pin("P1_3");
+	public Pin p1_4 = new Pin("P1_4");
+	public Pin p1_5 = new Pin("P1_5");
+	public Pin p1_6 = new Pin("P1_6");	
+	public Pin p1_7 = new Pin("P2_7");
+	
+	//port2
+	public Pin p2_0 = new Pin("P2_0");//AD8
+    public Pin p2_1 = new Pin("P2_1");//AD9
+	public Pin p2_2 = new Pin("P2_2");//AD10
+	public Pin p2_3 = new Pin("P2_3");//AD11
+	public Pin p2_4 = new Pin("P2_4");//AD12
+	public Pin p2_5 = new Pin("P2_5");//AD13
+	public Pin p2_6 = new Pin("P2_6");//AD14
+	public Pin p2_7 = new Pin("P2_7");//AD15
+	
+	//port3
+	public Pin p3_0 = new Pin("P3_0"); //RXD
+    public Pin p3_1 = new Pin("P3_1"); //TXD
+	public Pin p3_2 = new Pin("P3_2"); //INT0~
+	public Pin p3_3 = new Pin("P3_3"); //INT1~
+	public Pin p3_4 = new Pin("P3_4"); //TO
+	public Pin p3_5 = new Pin("P3_5"); //T1
+	public Pin p3_6 = new Pin("P3_6"); //WR~	
+	public Pin p3_7 = new Pin("P3_7"); //RD~
+
+	//non-port pins
+	public Pin RST = new Pin("RST");
+	public Pin XTAL1 = new Pin("XTAL1");
+	public Pin XTAL2 = new Pin("XTAL2");
+	public Pin GND = new Pin("GND");
+	public Pin VCC = new Pin("VCC");
+	public Pin EA_VPP = new Pin("EA_VPP");// EA~/VPP
+	public Pin ALE_PROG = new Pin("ALE_PROG"); //ALE/PROG~
+	public Pin PSEN = new Pin("PSEN"); //~PSEN
+	
+	
+}
+
 class VoltageChecker implements Peripheral {
     private Pin monitoredPin;
 
@@ -138,7 +192,7 @@ class seven_seg_display implements Peripheral {
         } else if (A.isHigh() && !B.isHigh() && C.isHigh() && D.isHigh() && E.isHigh() && F.isHigh() && G.isHigh()) {
             return new String[]{" __ ", "|__ ", "|__|"}; // code for 6
         } else if (A.isHigh() && B.isHigh() && C.isHigh() && !D.isHigh() && !E.isHigh() && !F.isHigh() && G.isHigh()) {
-            return new String[]{" __ ", "    |", "    |"}; // code for 7
+            return new String[]{" __ ", "    |", "    							|"}; // code for 7
         } else if (A.isHigh() && B.isHigh() && C.isHigh() && D.isHigh() && E.isHigh() && F.isHigh() && G.isHigh()) {
             return new String[]{" __ ", "|__|", "|__|"}; // code for 8
         } else if (A.isHigh() && B.isHigh() && C.isHigh() && D.isHigh() && !E.isHigh() && F.isHigh() && G.isHigh()) {
