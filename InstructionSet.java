@@ -283,6 +283,99 @@ public class InstructionSet {
             cpu.setparityFlag(calculateParity(resultReg));
             break;
         }
+		
+		case 0x44: {  //ORL A, IMMEDIATE
+            int immediateValue_orl = cpu.fetch();
+            int accumulatorValue_orl = cpu.getAccumulator() & 0xFF; // Mask to 8 bits
+            int result_orl = accumulatorValue_orl | immediateValue_orl;
+
+            // Set flags
+            cpu.setparityFlag(calculateParity(result_orl));
+            cpu.setAccumulator((byte) result_orl);
+            break;
+        }
+
+        // ORL A, Rn (Bitwise OR accumulator with register Rn)
+        case 0x48: // ORL A, R0
+        case 0x49: // ORL A, R1
+        case 0x4A: // ORL A, R2
+        case 0x4B: // ORL A, R3
+        case 0x4C: // ORL A, R4
+        case 0x4D: // ORL A, R5
+        case 0x4E: // ORL A, R6
+        case 0x4F: { // ORL A, R7
+            int registerIndex_orl1 = opcode - 0x48;
+            int registerValue_orl = memory.readDataByte(registerIndex_orl1) & 0xFF; // Mask to 8 bits
+            int accumulatorValue_orl1 = cpu.getAccumulator() & 0xFF;
+            int result_orl1 = accumulatorValue_orl1 | registerValue_orl;
+
+            // Set flags
+            cpu.setparityFlag(calculateParity(result_orl1 ));
+            cpu.setAccumulator((byte) result_orl1);	
+            break;
+        }
+		
+		case 0x54: {  
+            int immediate_value_anl = cpu.fetch();
+            int accumulator_value_anl = cpu.getAccumulator() & 0xFF; // Mask to 8 bits
+            int result_anl = accumulator_value_anl & immediate_value_anl;
+
+            // Set flags
+            cpu.setparityFlag(calculateParity(result_anl));
+            cpu.setAccumulator((byte) result_anl);
+            break;
+        }
+
+        // ANL A, Rn (Bitwise AND accumulator with register Rn)
+        case 0x58: // ANL A, R0
+        case 0x59: // ANL A, R1
+        case 0x5A: // ANL A, R2
+        case 0x5B: // ANL A, R3
+        case 0x5C: // ANL A, R4
+        case 0x5D: // ANL A, R5
+        case 0x5E: // ANL A, R6
+        case 0x5F: { // ANL A, R7
+            int register_index_anl = opcode - 0x58;
+            int register_value_anl = memory.readDataByte(register_index_anl) & 0xFF; // Mask to 8 bits
+            int accumulator_value_anl_rn = cpu.getAccumulator() & 0xFF;
+            int result_anl_rn = accumulator_value_anl_rn & register_value_anl;
+
+            // Set flags
+            cpu.setparityFlag(calculateParity(result_anl_rn));
+            cpu.setAccumulator((byte) result_anl_rn);
+            break;
+        }
+		
+		case 0x62: {  // XRL A, immediate
+			int immediateValue_xrl = cpu.fetch();
+			int accumulatorValue_xrl = cpu.getAccumulator() & 0xFF; // Mask to 8 bits
+			int result_xrl = accumulatorValue_xrl ^ immediateValue_xrl;
+		
+			// Set flags
+			cpu.setparityFlag(calculateParity(result_xrl));
+			cpu.setAccumulator((byte) result_xrl);
+			break;
+		}
+
+		// XRL A, Rn (Bitwise XOR accumulator with register Rn)
+		case 0x68: // XRL A, R0
+		case 0x69: // XRL A, R1
+		case 0x6A: // XRL A, R2
+		case 0x6B: // XRL A, R3
+		case 0x6C: // XRL A, R4
+		case 0x6D: // XRL A, R5
+		case 0x6E: // XRL A, R6
+		case 0x6F: { // XRL A, R7
+			int registerIndex_xrl = opcode - 0x68;
+			int registerValue_xrl = memory.readDataByte(registerIndex_xrl) & 0xFF; // Mask to 8 bits
+			int accumulatorValue_xrl = cpu.getAccumulator() & 0xFF;
+			int result_xrl = accumulatorValue_xrl ^ registerValue_xrl;
+		
+			// Set flags
+			cpu.setparityFlag(calculateParity(result_xrl));
+			cpu.setAccumulator((byte) result_xrl);	
+			break;
+		}
 
 
         case 0xD2: { // SETB bit (Set a bit in memory, register, flag, or pin)

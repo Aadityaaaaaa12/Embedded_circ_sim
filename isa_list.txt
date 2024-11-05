@@ -8,6 +8,15 @@ ADD A,Rn
 SUB A,immediate
 SUB A,Rn
 
+LOGIC INSTRUCTIONS
+ANL A,immediate
+ANL A,Rn
+ORL A,immediate
+ORL A,Rn
+XRL A,immediate
+XRL A,Rn
+
+
 DEC Rn
 MOV Rn, A
 MOV Rn, immediate 
