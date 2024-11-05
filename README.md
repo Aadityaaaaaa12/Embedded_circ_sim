@@ -80,7 +80,5 @@ java Simulator
 - Press **Run** to execute the instructions in `instructions.txt`.
 - Upon execution, the simulation results window will open, displaying the effects of each instruction on the components.
 
-*(Image of simulator window here)*
 
-*(Image of simulation results window here)*
 
