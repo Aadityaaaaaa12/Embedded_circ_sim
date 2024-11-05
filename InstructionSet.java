@@ -13,193 +13,333 @@ public class InstructionSet {
 		this.pins = pins; 
     }
 
-	  public void executeInstruction(int opcode) {
-        switch (opcode) {
-            case 0xE4: // CLR A (Clear ACC)
-                cpu.setAccumulator((byte) 0);
-                break;
-			case 0xF4: // CPL A
-				byte accumulatorValue = cpu.getAccumulator();
-				byte complementedValue = (byte) ~accumulatorValue;  // Bitwise NOT operation
-				cpu.setAccumulator(complementedValue);
-				break;
+	 public void executeInstruction(int opcode) {
+    switch (opcode) {
+        case 0xE4: // CLR A (Clear ACC)
+            cpu.setAccumulator((byte) 0);
+            cpu.setparityFlag(calculateParity(0));
+            break;
 
-            case 0x74: // MOV A, #data (Move immediate value to ACC)
-                int immediateValue = cpu.fetch(); 
-                cpu.setAccumulator((byte) immediateValue);
-                cpu.setparityFlag(calculateParity(immediateValue));
-                break;
+        case 0xF4: // CPL A (Complement ACC)
+            byte accValue = cpu.getAccumulator();
+            byte complementedValue = (byte) ~accValue;  // Bitwise NOT operation
+            cpu.setAccumulator(complementedValue);
+            cpu.setparityFlag(calculateParity(complementedValue));
+            break;
 
-			case 0xE8: // MOV A, R0
-				cpu.setAccumulator((byte) memory.readDataByte(0x00));
-				break;
+        case 0x74: // MOV A, #data (Move immediate value to ACC)
+            int immValue = cpu.fetch();
+            cpu.setAccumulator((byte) immValue);
+            cpu.setparityFlag(calculateParity(immValue));
+            break;
 
-			case 0xE9: // MOV A, R1
-				cpu.setAccumulator((byte) memory.readDataByte(0x01));
-				break;
+        case 0xE8: // MOV A, R0
+            byte r0Value = (byte) memory.readDataByte(0x00);
+            cpu.setAccumulator(r0Value);
+            cpu.setparityFlag(calculateParity(r0Value));
+            break;
 
-			case 0xEA: // MOV A, R2
-				cpu.setAccumulator((byte) memory.readDataByte(0x02));
-				break;
+        case 0xE9: // MOV A, R1
+            byte r1Value = (byte) memory.readDataByte(0x01);
+            cpu.setAccumulator(r1Value);
+            cpu.setparityFlag(calculateParity(r1Value));
+            break;
 
-			case 0xEB: // MOV A, R3
-				cpu.setAccumulator((byte) memory.readDataByte(0x03));
-				break;
+        case 0xEA: // MOV A, R2
+            byte r2Value = (byte) memory.readDataByte(0x02);
+            cpu.setAccumulator(r2Value);
+            cpu.setparityFlag(calculateParity(r2Value));
+            break;
 
-			case 0xEC: // MOV A, R4
-				cpu.setAccumulator((byte) memory.readDataByte(0x04));
-				break;
+        case 0xEB: // MOV A, R3
+            byte r3Value = (byte) memory.readDataByte(0x03);
+            cpu.setAccumulator(r3Value);
+            cpu.setparityFlag(calculateParity(r3Value));
+            break;
 
-			case 0xED: // MOV A, R5
-				cpu.setAccumulator((byte) memory.readDataByte(0x05));
+        case 0xEC: // MOV A, R4
+            byte r4Value = (byte) memory.readDataByte(0x04);
+            cpu.setAccumulator(r4Value);
+            cpu.setparityFlag(calculateParity(r4Value));
+            break;
+
+        case 0xED: // MOV A, R5
+            byte r5Value = (byte) memory.readDataByte(0x05);
+            cpu.setAccumulator(r5Value);
+            cpu.setparityFlag(calculateParity(r5Value));
+            break;
+
+        case 0xEE: // MOV A, R6
+            byte r6Value = (byte) memory.readDataByte(0x06);
+            cpu.setAccumulator(r6Value);
+            cpu.setparityFlag(calculateParity(r6Value));
+            break;
+
+        case 0xEF: // MOV A, R7
+            byte r7Value = (byte) memory.readDataByte(0x07);
+            cpu.setAccumulator(r7Value);
+            cpu.setparityFlag(calculateParity(r7Value));
+            break;
+
+        case 0xF8: // MOV R0, A
+            memory.writeDataByte(0x00, cpu.getAccumulator());
+            break;
+
+        case 0xF9: // MOV R1, A
+            memory.writeDataByte(0x01, cpu.getAccumulator());
+            break;
+
+        case 0xFA: // MOV R2, A
+            memory.writeDataByte(0x02, cpu.getAccumulator());
+            break;
+
+        case 0xFB: // MOV R3, A
+            memory.writeDataByte(0x03, cpu.getAccumulator());
+            break;
+
+        case 0xFC: // MOV R4, A
+            memory.writeDataByte(0x04, cpu.getAccumulator());
+            break;
+
+        case 0xFD: // MOV R5, A
+            memory.writeDataByte(0x05, cpu.getAccumulator());
+            break;
+
+        case 0xFE: // MOV R6, A
+            memory.writeDataByte(0x06, cpu.getAccumulator());
+            break;
+
+        case 0xFF: // MOV R7, A
+            memory.writeDataByte(0x07, cpu.getAccumulator());
+            break;
+
+        case 0x75: // MOV direct, #immediate (Move immediate value to direct address in memory)
+            int address = cpu.fetch();
+            int directValue = cpu.fetch();
+            memory.writeByte(address, (byte) directValue);
+            cpu.setparityFlag(calculateParity(directValue));
+            break;
+
+        case 0x78: // MOV R0, #immediate
+            int immR0 = cpu.fetch();
+            memory.writeDataByte(0x00, (byte) immR0);
+            cpu.setparityFlag(calculateParity(immR0));
+            break;
+
+        case 0x79: // MOV R1, #immediate
+            int immR1 = cpu.fetch();
+            memory.writeDataByte(0x01, (byte) immR1);
+            cpu.setparityFlag(calculateParity(immR1));
+            break;
+
+        case 0x7A: // MOV R2, #immediate
+            int immR2 = cpu.fetch();
+            memory.writeDataByte(0x02, (byte) immR2);
+            cpu.setparityFlag(calculateParity(immR2));
+            break;
+
+        case 0x7B: // MOV R3, #immediate
+            int immR3 = cpu.fetch();
+            memory.writeDataByte(0x03, (byte) immR3);
+            cpu.setparityFlag(calculateParity(immR3));
+            break;
+
+        case 0x7C: // MOV R4, #immediate
+            int immR4 = cpu.fetch();
+            memory.writeDataByte(0x04, (byte) immR4);
+            cpu.setparityFlag(calculateParity(immR4));
+            break;
+
+        case 0x7D: // MOV R5, #immediate
+            int immR5 = cpu.fetch();
+            memory.writeDataByte(0x05, (byte) immR5);
+            cpu.setparityFlag(calculateParity(immR5));
+            break;
+
+        case 0x7E: // MOV R6, #immediate
+            int immR6 = cpu.fetch();
+            memory.writeDataByte(0x06, (byte) immR6);
+            cpu.setparityFlag(calculateParity(immR6));
+            break;
+
+        case 0x7F: // MOV R7, #immediate
+            int immR7 = cpu.fetch();
+            memory.writeDataByte(0x07, (byte) immR7);
+            cpu.setparityFlag(calculateParity(immR7));
+            break;
+		
+        case 0x24: { // ADD A, #immediate
+			int immediateVal = cpu.fetch();
+			int accVal = cpu.getAccumulator() & 0xFF; // Mask to 8 bits
+			int result = accVal + immediateVal;
+
+			// Set flags with correct arguments
+			cpu.setcarryFlag(calculateCarry(accVal, immediateVal, result));
+			cpu.setauxiliaryCarryFlag(calculateAuxiliaryCarry(accVal, immediateVal));
+			cpu.setoverflowFlag(calculateOverflow(accVal, immediateVal, result));
+		
+			// Store result in accumulator
+			cpu.setAccumulator((byte) result);
+			cpu.setparityFlag(calculateParity(result));
 			break;
+		}
 
-			case 0xEE: // MOV A, R6
-				cpu.setAccumulator((byte) memory.readDataByte(0x06));
-				break;
+        // ADD A, Rn (Add register Rn to ACC)
+		case 0x28: // ADD A, R0
+        case 0x29: // ADD A, R1
+        case 0x2A: // ADD A, R2
+        case 0x2B: // ADD A, R3
+        case 0x2C: // ADD A, R4
+        case 0x2D: // ADD A, R5
+        case 0x2E: // ADD A, R6
+        case 0x2F: { // ADD A, R7
+            int registerIndex = opcode - 0x28;
+            int registerValue = memory.readDataByte(registerIndex) & 0xFF;
+            int accumulatorValue = cpu.getAccumulator() & 0xFF;
+            int result = accumulatorValue + registerValue;
 
-			case 0xEF: // MOV A, R7
-			cpu.setAccumulator((byte) memory.readDataByte(0x07));
-				break;
-			case 0xF8: // MOV R0, A
-				memory.writeDataByte(0x00, cpu.getAccumulator());
-				break;
-
-			case 0xF9: // MOV R1, A
-				memory.writeDataByte(0x01, cpu.getAccumulator());
-				break;
-
-			case 0xFA: // MOV R2, A
-				memory.writeDataByte(0x02, cpu.getAccumulator());
-				break;
-
-			case 0xFB: // MOV R3, A
-				memory.writeDataByte(0x03, cpu.getAccumulator());
-				break;
-
-			case 0xFC: // MOV R4, A
-				memory.writeDataByte(0x04, cpu.getAccumulator());
-				break;
-
-			case 0xFD: // MOV R5, A
-				memory.writeDataByte(0x05, cpu.getAccumulator());
-				break;
-
-			case 0xFE: // MOV R6, A
-				memory.writeDataByte(0x06, cpu.getAccumulator());
-				break;
-
-			case 0xFF: // MOV R7, A
-				memory.writeDataByte(0x07, cpu.getAccumulator());
-				break;
-			
-            case 0x75: // MOV direct, #immediate (Move immediate value to direct address in memory)
-                int address = cpu.fetch();
-                int value = cpu.fetch();
-                memory.writeByte(address, (byte) value);
-                cpu.setparityFlag(calculateParity(value));
-                break;
-				
-			case 0x78: // MOV R0, #immediate
-				memory.writeDataByte(0x00, (byte) memory.readByte(cpu.fetch()));
-				break;
-
-			case 0x79: // MOV R1, #immediate
-				 int value_r = cpu.fetch();
-				memory.writeDataByte(0x01, (byte) value_r);
-				break;
-
-			case 0x7A: // MOV R2, #immediate
-				memory.writeDataByte(0x02, (byte) memory.readByte(cpu.fetch()));
-				break;
-
-			case 0x7B: // MOV R3, #immediate
-				memory.writeDataByte(0x03, (byte) memory.readByte(cpu.fetch()));
-				break;
-
-			case 0x7C: // MOV R4, #immediate
-				memory.writeDataByte(0x04, (byte) memory.readByte(cpu.fetch()));
-				break;
-
-			case 0x7D: // MOV R5, #immediate
-				memory.writeDataByte(0x05, (byte) memory.readByte(cpu.fetch()));
-				break;
-			
-			case 0x7E: // MOV R6, #immediate
-				memory.writeDataByte(0x06, (byte) memory.readByte(cpu.fetch()));
-				break;
-
-			case 0x7F: // MOV R7, #immediate
-				memory.writeDataByte(0x07, (byte) memory.readByte(cpu.fetch()));
-				break;
-
-
-            case 0xD2: // SETB bit (Set a bit in memory, register, flag, or pin)
-                int bitAddress = cpu.fetch(); 
-
-                if (bitAddress < 0x80) {  // RAM memory address
-                    int byteAddress = bitAddress >> 3;
-                    int bitPosition = bitAddress & 0x07; 
-                    setMemoryBit(byteAddress, bitPosition, false); 
-                } else if (bitAddress >= 0x2000 && bitAddress < 0x3000) { //ROM memory address
-                    
-                    int byteAddress = (bitAddress - 0x2000) >> 3;  
-                    int bitPosition = bitAddress & 0x07;  
-                    setMemoryBit(byteAddress, bitPosition, true);
-                } else if (bitAddress == 0xE0 || bitAddress == 0xF0) {
-                    
-                    int bitPosition = bitAddress & 0x07;
-                    if (bitAddress == 0xE0) {
-                       
-                        setRegisterBit(cpu.getAccumulator(), bitPosition, "ACC");
-                    } else {
-                        
-                        setRegisterBit(cpu.getb_reg(), bitPosition, "B");
-                    }
-                } else if (bitAddress == 0xD0) {
-                    // Carry flag
-                    setFlagBit("C");
-                } else if (bitAddress >= 0xB0 && bitAddress < 0xB8) {
-                    // Other flags like OV, AC, P, etc.
-                    int flagPosition = bitAddress & 0x07;
-                    switch (flagPosition) {
-                        case 2:  // OV flag
-                            setFlagBit("OV");
-                            break;
-                        case 4:  // AC flag
-                            setFlagBit("AC");
-                            break;
-                        case 5:  // P flag
-                            setFlagBit("P");
-                            break;
-                        default:
-                            throw new UnsupportedOperationException("Unknown flag bit at address: " + bitAddress);
-                    }
-                } else if (bitAddress >= 0x80 && bitAddress <= 0x87) {	//port 0
-  
-                    setPinBit(bitAddress);  
-					
-                } else if (bitAddress >= 0x90 && bitAddress <= 0x97) {	//port 1
-              
-                    setPinBit(bitAddress);  
-					
-                }else if(bitAddress >= 0xA0 && bitAddress <= 0xA7){ //port  2
-				
-					setPinBit(bitAddress);  
-					
-				}else if(bitAddress >= 0xB0 && bitAddress <= 0xB7){ //PORT 3
-					
-					 setPinBit(bitAddress);  
-					
-				}else {
-                    throw new UnsupportedOperationException("Invalid bit address for SETB: " + Integer.toHexString(bitAddress));
-                }
-                break;
-
-            default:
-                throw new UnsupportedOperationException("Opcode not supported: " + Integer.toHexString(opcode));
+            cpu.setcarryFlag(calculateCarry(accumulatorValue, registerValue, result));
+            cpu.setauxiliaryCarryFlag(calculateAuxiliaryCarry(accumulatorValue, registerValue));
+            cpu.setoverflowFlag(calculateOverflow(accumulatorValue, registerValue, result));
+            cpu.setAccumulator((byte) result);
+            cpu.setparityFlag(calculateParity(result));
+            break;
         }
+		
+		 case 0x94: {
+            int immediateValue = cpu.fetch();
+            int accumulatorValue = cpu.getAccumulator() & 0xFF;  // Mask to 8 bits
+            int result = accumulatorValue - immediateValue;
+
+            // Set flags
+            cpu.setcarryFlag(calculateCarryForSubtraction(accumulatorValue, immediateValue));
+            cpu.setauxiliaryCarryFlag(calculateAuxiliaryCarryForSubtraction(accumulatorValue, immediateValue));
+            cpu.setoverflowFlag(calculateOverflowForSubtraction(accumulatorValue, immediateValue, result));
+
+            // Store result in accumulator
+            cpu.setAccumulator((byte) result);
+            cpu.setparityFlag(calculateParity(result));
+            break;
+        }
+
+        // SUB A, Rn (Subtract register Rn from ACC)
+        case 0x98: // SUB A, R0
+        case 0x99: // SUB A, R1
+        case 0x9A: // SUB A, R2
+        case 0x9B: // SUB A, R3
+        case 0x9C: // SUB A, R4
+        case 0x9D: // SUB A, R5
+        case 0x9E: // SUB A, R6
+        case 0x9F: { // SUB A, R7
+            int registerIndex = opcode - 0x98;
+            int registerValue = memory.readDataByte(registerIndex) & 0xFF; // Mask to 8 bits
+            int accumulatorValue = cpu.getAccumulator() & 0xFF; // Mask to 8 bits
+            int result = accumulatorValue - registerValue;
+
+            // Set flags
+            cpu.setcarryFlag(calculateCarryForSubtraction(accumulatorValue, registerValue));
+            cpu.setauxiliaryCarryFlag(calculateAuxiliaryCarryForSubtraction(accumulatorValue, registerValue));
+            cpu.setoverflowFlag(calculateOverflowForSubtraction(accumulatorValue, registerValue, result));
+
+            // Store result in accumulator
+            cpu.setAccumulator((byte) result);
+            cpu.setparityFlag(calculateParity(result));
+            break;
+        }
+		
+		 case 0x14: // DEC A (Decrement ACC)
+            int accumulatorValue = cpu.getAccumulator() & 0xFF; // Mask to 8 bits
+            int result = accumulatorValue - 1;
+
+            // Set flags
+            cpu.setcarryFlag(calculateCarryForSubtraction(accumulatorValue, 1));
+            cpu.setauxiliaryCarryFlag(calculateAuxiliaryCarryForSubtraction(accumulatorValue, 1));
+            cpu.setoverflowFlag(calculateOverflowForSubtraction(accumulatorValue, 1, result));
+
+            // Store result in accumulator
+            cpu.setAccumulator((byte) result);
+            cpu.setparityFlag(calculateParity(result));
+            break;
+
+        case 0x18: // DEC R0 (Decrement Register R0)
+        case 0x19: // DEC R1
+        case 0x1A: // DEC R2
+        case 0x1B: // DEC R3
+        case 0x1C: // DEC R4
+        case 0x1D: // DEC R5
+        case 0x1E: // DEC R6
+        case 0x1F: { // DEC R7
+            int registerIndex = opcode - 0x18;
+            int registerValue = memory.readDataByte(registerIndex) & 0xFF; // Mask to 8 bits
+            int resultReg = registerValue - 1;
+
+            // Set flags
+            cpu.setcarryFlag(calculateCarryForSubtraction(registerValue, 1));
+            cpu.setauxiliaryCarryFlag(calculateAuxiliaryCarryForSubtraction(registerValue, 1));
+            cpu.setoverflowFlag(calculateOverflowForSubtraction(registerValue, 1, resultReg));
+
+            // Store result back in register
+            memory.writeDataByte(registerIndex, (byte) resultReg);
+            cpu.setparityFlag(calculateParity(resultReg));
+            break;
+        }
+
+
+        case 0xD2: { // SETB bit (Set a bit in memory, register, flag, or pin)
+            int bitAddress = cpu.fetch();
+
+            if (bitAddress < 0x80) { // RAM memory address
+                int byteAddress = bitAddress >> 3;
+                int bitPosition = bitAddress & 0x07;
+                setMemoryBit(byteAddress, bitPosition, false);
+            } else if (bitAddress >= 0x2000 && bitAddress < 0x3000) { // ROM memory address
+                int byteAddress = (bitAddress - 0x2000) >> 3;
+                int bitPosition = bitAddress & 0x07;
+                setMemoryBit(byteAddress, bitPosition, true);
+            } else if (bitAddress == 0xE0 || bitAddress == 0xF0) { // ACC or B register
+                int bitPosition = bitAddress & 0x07;
+                if (bitAddress == 0xE0) {
+                    setRegisterBit(cpu.getAccumulator(), bitPosition, "ACC");
+                } else {
+                    setRegisterBit(cpu.getb_reg(), bitPosition, "B");
+                }
+            } else if (bitAddress == 0xD0) { // Carry flag
+                setFlagBit("C");
+            } else if (bitAddress >= 0xB0 && bitAddress < 0xB8) { // Other flags like OV, AC, P
+                int flagPosition = bitAddress & 0x07;
+                switch (flagPosition) {
+                    case 2: // OV flag
+                        setFlagBit("OV");
+                        break;
+                    case 4: // AC flag
+                        setFlagBit("AC");
+                        break;
+                    case 5: // P flag
+                        setFlagBit("P");
+                        break;
+                    default:
+                        throw new UnsupportedOperationException("Unknown flag bit at address: " + bitAddress);
+                }
+            } else if (bitAddress >= 0x80 && bitAddress <= 0x87) { // Port 0
+                setPinBit(bitAddress);
+            } else if (bitAddress >= 0x90 && bitAddress <= 0x97) { // Port 1
+                setPinBit(bitAddress);
+            } else if (bitAddress >= 0xA0 && bitAddress <= 0xA7) { // Port 2
+                setPinBit(bitAddress);
+            } else if (bitAddress >= 0xB0 && bitAddress <= 0xB7) { // Port 3
+                setPinBit(bitAddress);
+            } else {
+                throw new UnsupportedOperationException("Invalid bit address for SETB: " + Integer.toHexString(bitAddress));
+            }
+            break;
+        }
+
+        default:
+            throw new UnsupportedOperationException("Opcode not supported: " + Integer.toHexString(opcode));
     }
+}
+
+
     
 
     //helper function for partity flag
@@ -212,6 +352,57 @@ public class InstructionSet {
     
         return (count % 2 == 0);
     }
+  
+  // Updated helper function for carry flag
+private boolean calculateCarry(int operand1, int operand2, int result) {
+    return (result & 0x100) != 0; // Check if there's a carry out of the 8th bit
+}
+
+private boolean calculateAuxiliaryCarry(int operand1, int operand2) {
+    int lowerNibble1 = operand1 & 0x0F;
+    int lowerNibble2 = operand2 & 0x0F;
+    int lowerNibbleSum = lowerNibble1 + lowerNibble2;
+    
+    // Debugging outputs
+    System.out.println("Operand1 Lower Nibble: " + Integer.toHexString(lowerNibble1));
+    System.out.println("Operand2 Lower Nibble: " + Integer.toHexString(lowerNibble2));
+    System.out.println("Lower Nibble Sum: " + Integer.toHexString(lowerNibbleSum));
+
+    return (lowerNibbleSum >= 0x0f);
+}
+
+
+// Helper function to calculate overflow flag for addition
+private boolean calculateOverflow(int operand1, int operand2, int result) {
+    boolean operand1Sign = (operand1 & 0x80) != 0;
+    boolean operand2Sign = (operand2 & 0x80) != 0;
+    boolean resultSign = (result & 0x80) != 0;
+
+    return (operand1Sign == operand2Sign) && (operand1Sign != resultSign);
+}
+
+// Helper function to calculate carry flag for subtraction
+private boolean calculateCarryForSubtraction(int operand1, int operand2) {
+    return operand1 < operand2; // Carry (borrow) occurs if operand1 is less than operand2
+}
+
+// Helper function to calculate auxiliary carry flag for subtraction
+private boolean calculateAuxiliaryCarryForSubtraction(int operand1, int operand2) {
+    return (operand1 & 0x0F) < (operand2 & 0x0F); // Borrow in lower 4 bits
+}
+
+// Helper function to calculate overflow flag for subtraction
+private boolean calculateOverflowForSubtraction(int operand1, int operand2, int result) {
+    boolean operand1Sign = (operand1 & 0x80) != 0; // Check sign of operand1 (7th bit)
+    boolean operand2Sign = (operand2 & 0x80) != 0; // Check sign of operand2
+    boolean resultSign = (result & 0x80) != 0;     // Check sign of result
+
+    // Overflow occurs if the operands have opposite signs and result sign differs from operand1
+    return (operand1Sign != operand2Sign) && (operand1Sign != resultSign);
+}
+
+
+  
   
     // Helper function to set a specific bit at a given position
     private int setBit(int value, int bitPosition) {
