@@ -5,7 +5,7 @@ The **Embedded Circuit Simulator** is a Java-based tool for simulating simple em
 
 ## Features
 - **8051 Simulation** with support for the following instructions:
-  - **ACC Operations:*
+  - *ACC Operations:*
     - `CPL A`
     - `CLR A`
     - `DEC A`
