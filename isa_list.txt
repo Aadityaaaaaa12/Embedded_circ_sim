@@ -1,6 +1,7 @@
 CPL A
 CLR A
 DEC A
+INC A
 MOV A, immediate
 MOV A,Rn
 ADD A, immediate
@@ -18,6 +19,7 @@ XRL A,Rn
 
 
 DEC Rn
+INC Rn
 MOV Rn, A
 MOV Rn, immediate 
 

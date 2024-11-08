@@ -22,6 +22,7 @@ public class Simulator {
         pins = new Pins();
         cpu = new CPU(memory, pins);
         instructionSet = new InstructionSet(cpu, memory, pins);
+		
 
         SwingUtilities.invokeLater(Simulator::createAndShowGUI);
     }
@@ -300,6 +301,7 @@ public class Simulator {
 
     private static void executeInstructions() {
         while (true) {
+			
             int opcode = memory.readByte(cpu.getProgramCounter());
             if (opcode == 0xFF) {
                 break;

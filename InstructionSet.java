@@ -284,6 +284,43 @@ public class InstructionSet {
             break;
         }
 		
+		case 0x04: // INC A (Increment ACC)
+			int accumulatorValue_INCA = cpu.getAccumulator() & 0xFF; // Mask to 8 bits
+			int result_INCA = accumulatorValue_INCA + 1;
+		
+			// Set flags
+			cpu.setcarryFlag(calculateCarry(accumulatorValue_INCA, 1, result_INCA));
+			cpu.setauxiliaryCarryFlag(calculateAuxiliaryCarry(accumulatorValue_INCA, 1));
+			cpu.setoverflowFlag(calculateOverflow(accumulatorValue_INCA, 1, result_INCA));
+
+			// Store result in accumulator
+			cpu.setAccumulator((byte) result_INCA);
+			cpu.setparityFlag(calculateParity(result_INCA));
+			break;
+
+		case 0x08: // INC R0 (Increment Register R0)
+		case 0x09: // INC R1
+		case 0x0A: // INC R2
+		case 0x0B: // INC R3
+		case 0x0C: // INC R4
+		case 0x0D: // INC R5
+		case 0x0E: // INC R6
+		case 0x0F: { // INC R7
+			int registerIndex_INCR = opcode - 0x08;
+			int registerValue_INCR = memory.readDataByte(registerIndex_INCR) & 0xFF; // Mask to 8 bits
+			int resultReg_INCR = registerValue_INCR + 1;
+		
+			// Set flags
+			cpu.setcarryFlag(calculateCarry(registerValue_INCR, 1, resultReg_INCR));
+			cpu.setauxiliaryCarryFlag(calculateAuxiliaryCarry(registerValue_INCR, 1));
+			cpu.setoverflowFlag(calculateOverflow(registerValue_INCR, 1, resultReg_INCR));
+		
+			// Store result back in register
+			memory.writeDataByte(registerIndex_INCR, (byte) resultReg_INCR);
+			cpu.setparityFlag(calculateParity(resultReg_INCR));
+			break;
+		}
+		
 		case 0x44: {  //ORL A, IMMEDIATE
             int immediateValue_orl = cpu.fetch();
             int accumulatorValue_orl = cpu.getAccumulator() & 0xFF; // Mask to 8 bits
