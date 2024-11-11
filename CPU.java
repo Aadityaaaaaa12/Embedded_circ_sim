@@ -191,6 +191,7 @@ class CPU {
     System.out.println("Register Bank Select (RS0): " + regset0);
     System.out.println("Overflow Flag (OV): " + overflowFlag);
     System.out.println("Parity Flag (P): " + parityFlag);
+	System.out.println("overflow for auxiliaryCarry: "+ getauxiliaryCarryFlag());
   }
   //display end
 

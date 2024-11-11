@@ -413,6 +413,8 @@ public class InstructionSet {
 			cpu.setAccumulator((byte) result_xrl);	
 			break;
 		}
+		
+		
 
 
         case 0xD2: { // SETB bit (Set a bit in memory, register, flag, or pin)

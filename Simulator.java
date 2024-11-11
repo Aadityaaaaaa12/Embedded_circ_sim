@@ -17,12 +17,14 @@ public class Simulator {
     private static ArrayList<pnp> pnpTransistors = new ArrayList<>();
     private static ArrayList<seven_seg_display> sevenSegDisplays = new ArrayList<>();
 
+    private static JPanel initPanel;
+    private static DefaultListModel<String> peripheralsListModel;
+
     public static void main(String[] args) {
         memory = new Memory(4096, 128); // 4KB ROM, 128B RAM
         pins = new Pins();
         cpu = new CPU(memory, pins);
         instructionSet = new InstructionSet(cpu, memory, pins);
-		
 
         SwingUtilities.invokeLater(Simulator::createAndShowGUI);
     }
@@ -51,10 +53,18 @@ public class Simulator {
         centerPanel.add(buttonPanel);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
-        JPanel initPanel = new JPanel(new BorderLayout());
+        // Initialize the initPanel for displaying peripherals list
+        initPanel = new JPanel(new BorderLayout());
         JLabel initLabel = new JLabel("Initialize Peripherals", JLabel.CENTER);
         initPanel.add(initLabel, BorderLayout.NORTH);
+
+        // List model and JList to display initialized peripherals
+        peripheralsListModel = new DefaultListModel<>();
+        JList<String> peripheralsList = new JList<>(peripheralsListModel);
+        JScrollPane scrollPane = new JScrollPane(peripheralsList);
+        initPanel.add(scrollPane, BorderLayout.CENTER);
         initPanel.setPreferredSize(new Dimension(150, frame.getHeight()));
+
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.add(initPanel, BorderLayout.EAST);
 
@@ -101,6 +111,7 @@ public class Simulator {
             led.connect(getPinByName(anodePin), getPinByName(cathodePin));
             leds.add(led);
 
+            peripheralsListModel.addElement(color + " LED"); // Add LED to list
             dialog.dispose();
         });
 
@@ -141,6 +152,7 @@ public class Simulator {
             resistor.connect(getPinByName(pin1), getPinByName(pin2));
             resistors.add(resistor);
 
+            peripheralsListModel.addElement("Resistor (" + resistance + "Ω)"); // Add Resistor to list
             dialog.dispose();
         });
 
@@ -206,6 +218,7 @@ public class Simulator {
             );
             sevenSegDisplays.add(ssd);
 
+            peripheralsListModel.addElement("7-Segment Display " + ssd.id); // Add SSD to list
             dialog.dispose();
         });
 
@@ -218,9 +231,8 @@ public class Simulator {
         dialog.setVisible(true);
     }
 
-    
-	private static void initializeNPN() {
-         JDialog dialog = new JDialog((Frame) null, "Initialize NPN Transistor", true);
+    private static void initializeNPN() {
+        JDialog dialog = new JDialog((Frame) null, "Initialize NPN Transistor", true);
         dialog.setLayout(new GridLayout(4, 2, 10, 10));
 
         JLabel baseLabel = new JLabel("Base Pin:");
@@ -247,6 +259,7 @@ public class Simulator {
             npnTransistor.connect(getPinByName(basePin), getPinByName(collectorPin), getPinByName(emitterPin));
             npnTransistors.add(npnTransistor);
 
+            peripheralsListModel.addElement("NPN Transistor " + npnTransistor.id); // Add NPN to list
             dialog.dispose();
         });
         dialog.add(okButton);
@@ -257,7 +270,7 @@ public class Simulator {
     }
 
     private static void initializePNP() {
-         JDialog dialog = new JDialog((Frame) null, "Initialize PNP Transistor", true);
+        JDialog dialog = new JDialog((Frame) null, "Initialize PNP Transistor", true);
         dialog.setLayout(new GridLayout(4, 2, 10, 10));
 
         JLabel baseLabel = new JLabel("Base Pin:");
@@ -284,6 +297,7 @@ public class Simulator {
             pnpTransistor.connect(getPinByName(basePin), getPinByName(collectorPin), getPinByName(emitterPin));
             pnpTransistors.add(pnpTransistor);
 
+            peripheralsListModel.addElement("PNP Transistor " + pnpTransistor.id); // Add PNP to list
             dialog.dispose();
         });
         dialog.add(okButton);
@@ -292,8 +306,8 @@ public class Simulator {
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
-	
-	 private static void executeProgram() {
+
+ private static void executeProgram() {
         loadOpcodesFromFile(memory, "instructions.txt");
         executeInstructions();
         displayResults();
@@ -403,6 +417,7 @@ public class Simulator {
             sevenSegDisplays.clear();
             npn.resetInstanceCount();
             pnp.resetInstanceCount();
+			peripheralsListModel.clear(); 
             resultsFrame.dispose();
         });
 
@@ -454,4 +469,5 @@ public class Simulator {
             return null;
         }
     }
+
 }

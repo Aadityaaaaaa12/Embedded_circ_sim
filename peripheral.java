@@ -142,7 +142,7 @@ class LED implements Peripheral {
 
 class seven_seg_display implements Peripheral {
     private static int instanceCount = 0;
-    private final int id;
+    public final int id;
     private Pin en;
     private Pin A;
     private Pin B;
@@ -257,7 +257,7 @@ class Resistor implements Peripheral {
 
 class npn implements Peripheral {
     private static int instanceCount = 0;
-    private final int id;
+    public final int id;
     private Pin base;
     private Pin emitter;
     private Pin collector;
@@ -291,7 +291,7 @@ class npn implements Peripheral {
 
 class pnp implements Peripheral {
     private static int instanceCount = 0;
-    private final int id;
+    public final int id;
     private Pin base;
     private Pin emitter;
     private Pin collector;
