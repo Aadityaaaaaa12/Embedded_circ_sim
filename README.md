@@ -51,38 +51,38 @@ Alternatively, download the ZIP file from GitHub, extract it, and place it in yo
 The code for the processor should be written in the `instructions.txt` file located in the `program` folder. Any text editor or IDE can be used to edit this file.
 
 - **Format**: Instructions should be written one per line, using hexadecimal opcodes.
-- **Example Code**: The pre-filled example code in `instructions.txt` demonstrates moving values into the accumulator, setting all pins of ports 1 and 2 high, moving values from the accumulator to various registers, decrementing register values, and performing logical operations on them.
-CURRENT sample code
-MOV A, #0x56        ; Load immediate value 0x56 into A
-MOV R3, #0x21       ; Load immediate value 0x21 into R3
-MOV A, #0x06        ; Load 0x06 into A for subtraction
-SUBB A, #0x05       ; Subtract 0x05 from A
-MOV R0, A           ; Move the result from A into R0
-MOV A, #0xF0        ; Load an AND mask (0xF0) into A
-ANL A, #0x0F        ; AND the mask 0x0F with A
-MOV R1, A           ; Move the result from A into R1
-MOV A, R3           ; Move the value in R3 into A
-XRL A, R0           ; XOR the value in A with R0
-SETB P1.0           ; Set all bits in P1 high
-SETB P1.1
-SETB P1.2
-SETB P1.3
-SETB P1.4
-SETB P1.5
-SETB P1.6
-SETB P1.7
-SETB P2.0           ; Set all bits in P2 high
-SETB P2.1
-SETB P2.2
-SETB P2.3
-SETB P2.4
-SETB P2.5
-SETB P2.6
-SETB P2.7
-MOV A, #0x0C        ; Load immediate value 0x0C into A
-DEC A               ; Decrement A
-MOV R2, #0x01       ; Load immediate value 0x01 into R2
-INC R2              ; Increment R2
+- **Example Code**: The pre-filled example code in `instructions.txt` demonstrates moving values into the accumulator, setting all pins of ports 1 and 2 high, moving values from the accumulator to various registers, decrementing register values, and performing logical operations on them. <br/>
+CURRENT sample code <br/>
+MOV A, #0x56        ; Load immediate value 0x56 into A <br/>
+MOV R3, #0x21       ; Load immediate value 0x21 into R3   <br/>
+MOV A, #0x06        ; Load 0x06 into A for subtraction  <br/>
+SUBB A, #0x05       ; Subtract 0x05 from A  <br/>
+MOV R0, A           ; Move the result from A into R0  <br/>
+MOV A, #0xF0        ; Load an AND mask (0xF0) into A  <br/>
+ANL A, #0x0F        ; AND the mask 0x0F with A  <br/>
+MOV R1, A           ; Move the result from A into R1  <br/>
+MOV A, R3           ; Move the value in R3 into A  <br/>
+XRL A, R0           ; XOR the value in A with R0  <br/>
+SETB P1.0           ; Set all bits in P1 high  <br/>
+SETB P1.1  <br/>
+SETB P1.2  <br/>
+SETB P1.3  <br/>
+SETB P1.4  <br/>
+SETB P1.5  <br/>
+SETB P1.6  <br/>
+SETB P1.7  <br/>
+SETB P2.0           ; Set all bits in P2 high  <br/>
+SETB P2.1  <br/>
+SETB P2.2  <br/>
+SETB P2.3  <br/>
+SETB P2.4  <br/>
+SETB P2.5  <br/>
+SETB P2.6  <br/>
+SETB P2.7  <br/>
+MOV A, #0x0C        ; Load immediate value 0x0C into A  <br/>
+DEC A               ; Decrement A  <br/>
+MOV R2, #0x01       ; Load immediate value 0x01 into R2  <br/>
+INC R2              ; Increment R2  <br/>
 
 
 ## Usage
