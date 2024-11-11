@@ -272,6 +272,7 @@ public class InstructionSet {
             int registerIndex = opcode - 0x18;
             int registerValue = memory.readDataByte(registerIndex) & 0xFF; // Mask to 8 bits
             int resultReg = registerValue - 1;
+			cpu.setAccumulator((byte) resultReg);
 
             // Set flags
             cpu.setcarryFlag(calculateCarryForSubtraction(registerValue, 1));
