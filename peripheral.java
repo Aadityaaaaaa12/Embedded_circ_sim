@@ -263,11 +263,11 @@ class npn implements Peripheral {
     private Pin collector;
 
     public npn() {
-        this.id = ++instanceCount; // Assign unique id to each instance
+        this.id = ++instanceCount; 
     }
 
     public static void resetInstanceCount() {
-        instanceCount = 0; // Resets the count back to 0
+        instanceCount = 0; 
     }
 
     @Override
@@ -297,11 +297,11 @@ class pnp implements Peripheral {
     private Pin collector;
 
     public pnp() {
-        this.id = ++instanceCount; // Assign unique id to each instance
+        this.id = ++instanceCount; 
     }
 
     public static void resetInstanceCount() {
-        instanceCount = 0; // Resets the count back to 0
+        instanceCount = 0; 
     }
 
     @Override

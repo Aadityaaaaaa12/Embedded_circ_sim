@@ -53,9 +53,9 @@ public class Simulator {
         centerPanel.add(buttonPanel);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
-        // Initialize the initPanel for displaying peripherals list
+     
         initPanel = new JPanel(new BorderLayout());
-        JLabel initLabel = new JLabel("Initialize Peripherals", JLabel.CENTER);
+        JLabel initLabel = new JLabel("Initialized Peripherals", JLabel.CENTER);
         initPanel.add(initLabel, BorderLayout.NORTH);
 
         // List model and JList to display initialized peripherals
